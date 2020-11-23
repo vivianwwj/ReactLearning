@@ -1,0 +1,66 @@
+.input{
+    border:3px solid #2a95ca
+}
+
+.show{animation:show-item 2s ease-in forwards;}
+/* 第一个第二个参数是一定的，
+表示的是使用名为hide-item的animaition,
+第二个参数是动画多少秒，第三个参数是可选的，表示的是渐进 
+forwards表示动画运行到最后一帧停止否则会回到第一帧*/
+.hide{animation:hide-item 2s ease-in forwards;}
+
+@keyframes hide-item{
+    0% {
+        /* 透明度 */
+        opacity:1;
+        color:yellow;
+    }
+    50%{
+        opacity: 0.5 ;
+        color:red;
+    }
+    100%{
+        opacity:0;
+        color: green;
+    }
+}
+
+@keyframes show-item{
+    100% {
+        /* 透明度 */
+        opacity:1;
+        color:yellow;
+    }
+    50%{
+        opacity: 0.5 ;
+        color:red;
+    }
+    0%{
+        opacity:0;
+        color: green;
+    }
+}
+
+
+.boss-text-enter{
+    opacity: 0;
+}
+.boss-text-enter-active{
+    opacity: 1;
+    transition: opacity 2000ms;
+
+}
+.boss-text-enter-done{
+    opacity: 1;
+}
+.boss-text-exit{
+    opacity: 1;
+}
+.boss-text-exit-active{
+    opacity: 0;
+    transition: opacity 2000ms;
+
+}
+.boss-text-exit-done{
+    opacity: 0;
+}

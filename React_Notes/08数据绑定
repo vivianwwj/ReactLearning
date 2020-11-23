@@ -1,0 +1,103 @@
+这节课我们主要了解一下React中的响应式设计原理和数据的绑定方法，俗话说的好："宝剑磨的好，理论不能少"。这节课我们不仅要编写效果，还要讲理论，这节课很重要，因为这涉及`React`中的设计思想和你以后的编程思路。
+
+# [响应式设计和数据的绑定](https://jspang.com/detailed?id=46#toc332)
+
+`React`不建议你直接操作`DOM`元素,而是要通过数据进行驱动，改变界面中的效果。React会根据数据的变化，自动的帮助你完成界面的改变。所以在写React代码时，你无需关注DOM相关的操作，只需要关注数据的操作就可以了（这也是React如此受欢迎的主要原因，大大加快了我们的开发速度）。
+
+
+
+现在的需求：
+
+1.输入框数据
+
+2.点击增加服务之后的列表数据
+
+
+
+现在的需求是增加小姐姐的服务项，就需要先定义数据。数据定义在`Xiaojiejie`组件中的构造函数里`constructor`。
+
+```javascript
+//js的构造函数，由于其他任何函数执行
+    constructor(props){
+        //super调用父级方法
+        //因为Xiaojiejie继承的是Component中的方法
+        //所以props是Conponent中的方法
+        super(props)
+        this.state={
+            //输入框中的数据
+            inputValue:'wwj爱学习',
+            //服务列表
+            list:[]
+        }
+    }
+```
+
+
+
+在`React`中的数据绑定和`Vue`中几乎一样，也是采用`字面量`(我自己起的名字)的形式，就是使用`{}`来标注，其实这也算是js代码的一种声明。比如现在我们要把`inputValue`值绑定到`input`框中，只要写入下面的代码就可以了。其实说白了就是在JSX中使用js代码。
+
+```html
+<input value={this.state.inputValue} /> 
+```
+
+现在需要看一下是不是可以实现绑定效果，所以把`inputValue`赋予一个'jspang'，然后预览看一下效果。在这里我们并没有进行任何的`DOM`操作，但是界面已经发生了变化，这些都时`React`帮我们作的，它还会自动感知数据的变化。
+
+# [绑定事件](https://jspang.com/detailed?id=46#toc333)
+
+这时候你到界面的文本框中去输入值，是没有任何变化的，这是因为我们强制绑定了`inputValue`的值。如果要想改变，需要绑定**响应事件**，改变`inputValue`的值。比如绑定一个改变事件，这个事件执行`inputChange()`(当然这个方法还没有)方法。
+
+```html
+<input value={this.state.inputValue} onChange={this.inputChange} />
+```
+
+现在还没有`inputChange()`这个方法，在`render()`方法的下面建立一个`inputChange()`方法，代码如下：
+
+```
+ inputChange(e){
+        console.log(e);
+    }
+```
+
+这时候会发现响应事件可以使用了，但是如何获得我们输入的值那，程序中输入下面的代码。
+
+```javascript
+inputChange(e){
+    console.log(e.target.value);
+}
+```
+
+这时候控制台是可以打印出输入的值的，视频中会有演示。看到获得了输入的值，想当然的认为直接改变`inputValue`的值就可以了(错的).
+
+```javascript
+inputChange(e){
+    console.log(e.target.value);
+    this.state.inputValue=e.target.value;
+}
+```
+
+写完后再进行预览，会发现程序直接报错了（加项服务还真的有点难度哦,大宝剑不好作的...........）。
+
+其实我们范了两个错误：
+
+1. 一个是`this`指向不对，你需要重新用`bind`设置一下指向(ES6的语法)。
+2. 另一个是`React`中改变值需要使用`this.setState`方法。
+
+第一个错误很好解决，直接再`JSX`部分，利用`bind`进行绑定就好。
+
+```
+ <input value={this.state.inputValue} onChange={this.inputChange.bind(this)} />
+```
+
+这步做完，我们还需要加入`setState`方法，改变值。代码如下:
+
+```javascript
+inputChange(e){
+    // console.log(e.target.value);
+    // this.state.inputValue=e.target.value;
+    this.setState({
+        inputValue:e.target.value
+    })
+}
+```
+
+现在测试一下，输入框可以改变值了，其实这节课很重要，里边设计了`React`的重要思想，建议这节课可以反复多看两遍，虽然不难，但是这是一个最基本的思想的转变。下节课可要真的增加服务项目了。
